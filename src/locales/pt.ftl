@@ -3,6 +3,9 @@
 ###############
 loading = ᴄᴀʀʀᴇɢᴀɴᴅᴏ
 
+
+
+
 ###############
 ### ERROR ###
 ###############
@@ -21,7 +24,7 @@ btn-no=❌ Não
 ###############
 ### WELCOME ###
 ###############
-start-greeting= Olá, seja bem-vindo ao Domination Bot! Use /help para ver os comandos disponíveis e começar a dominar seus personagens favoritos!
+start-greeting=ainda não finalizado
 
 
 ###############
@@ -80,7 +83,8 @@ gift_success= Presente enviado com sucesso!
 ############
 # DOMINAR #
 ############
-name-not-found= ❌ nome incorreto !
+not-charater-to-dominar=Nenhum personagem disponível para dominar no momento.
+name-not-found= ❌ nome incorreto!
 bt-tentative-again= tente novamente
 #genero ( uma waifu/um husbando)
 success_dominar_title = ✅ <b>{ $usermention } dominou { $genero }!</b>
@@ -111,4 +115,16 @@ harem_btn_next_page=➡️
 harem_btn_close=trash
 
 harem_no_user = vc nao tem um harem
+
+
+
+
+############
+# TOP #
+############
+
+top_header= TOP GROBAL DOMINADORES
+top_header_start = -----------------
+top_header_end = -----------------
+top_pre_index =┣ 
 

@@ -8,7 +8,7 @@ import type {
 import { doprar_per } from "./doprar_per.js";
 
 let DROP = 100;
-let UNDROP = DROP + 5;
+let UNDROP = DROP + 40;
 
 interface InfoGrupo {
   cont: number; // contador de mensagens
@@ -20,7 +20,7 @@ interface InfoGrupo {
 export const grupos: Record<number, InfoGrupo> = {};
 export async function contarMensagens(ctx: MyContext) {
   // if (!ctx.new_chat_participant) return;
-
+  //  se o bot foi adicionado
   if (ctx.message?.new_chat_members) {
     const newMembers = ctx.message.new_chat_members[0];
     if (newMembers?.id === ctx.me.id) {
@@ -28,7 +28,7 @@ export async function contarMensagens(ctx: MyContext) {
       return;
     }
   }
-
+//  se o bot foi removido
   if (ctx.message?.left_chat_member) {
     const leftMember = ctx.message.left_chat_member;
 
@@ -36,8 +36,10 @@ export async function contarMensagens(ctx: MyContext) {
     // console.log(ctx);
     return;
   }
-  if (!ctx.message || !ctx.chat) return;
 
+  //  se o bot recebeu uma mensagem
+  if (!ctx.message || !ctx.chat) return;
+//
   const chatId = ctx.chat.id;
   if (!grupos[chatId]) {
     grupos[chatId] = {
@@ -52,34 +54,10 @@ export async function contarMensagens(ctx: MyContext) {
   console.log("Mensagem recebida no grupo", ctx.chat.title, chatId);
   console.log("Mensagem recebida no grupo", chatId);
   console.log("Mensagem: ", ctx.message.from.first_name, ctx.message.text);
-  // console.log("Chat: ", ctx);
   console.log("---------------------------------------------------");
 
   grupos[chatId].cont += 1;
-  console.log(
-    "Contador de mensagens: ",
-    grupos[chatId].cont,
-    "DROP: ",
-    DROP,
-    "UNDROP: ",
-    UNDROP,
-    ctx.chat.title,
-  );
-    console.log("---------------------------------------------------");
-  // if (process.env.NODE_ENV === "development") {
-  //   console.log("Modo desenvolvimento: DROP definido para 1");
-  //   if (chatId != -1001528803759) {
-  //     console.log("grupo não é developer:", chatId, ctx.chat.title);
-  //     {
-  //       const result: [number, characters_husbando | characters_waifu] | null =
-  //         await doprar_per(ctx);
-  //       grupos[chatId].drop_id = result ? result[0] : null;
-  //       grupos[chatId].drop = result ? result[1] : null;
-  //       grupos[chatId].data = new Date();
-  //     }
-  //   }
-  // }
-
+  
   if (grupos[chatId].cont === DROP) {
     const result: [number, characters_husbando | characters_waifu] | null =
       await doprar_per(ctx); // result[0] = drop_id, result[1] = drop
@@ -107,5 +85,12 @@ export async function contarMensagens(ctx: MyContext) {
     }
 
     await ctx.reply(txt, { parse_mode: "HTML" });
+  // resetar o contador de mensagens
+     grupos[chatId] = {
+      cont: 0,
+      drop: null,
+      drop_id: null,
+      data: null,
+    };
   }
 }

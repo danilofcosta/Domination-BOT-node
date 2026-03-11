@@ -38,8 +38,9 @@ export async function HaremHandler(ctx: MyContext) {
   const data = await getGroupedCollection(
     ctx,
     Number(ctx.from?.id),
-    null,
-    null,
+    
+    undefined,
+    undefined,
   );
 
   // console.log(user);

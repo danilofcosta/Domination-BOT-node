@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import localeNegotiator from "./utils/localeNegotiator.js";
-import { ChatType, type MyContext } from "./utils/customTypes.js";
+import { ChatType, NODE_ENV, type MyContext } from "./utils/customTypes.js";
 import { tagbotCommands, devCommands } from "./commands.js";
 import { listeners } from "./listeners.js";
 import { callbacks } from "./callbackQuery.js";
@@ -38,7 +38,10 @@ export default async function initializeBot(
 
   // bot.use(devCommands);
   bot.use(tagbotCommands);
-  // await tagbotCommands.setCommands(bot);
+  if (process.env.NODE_ENV  ===  NODE_ENV.PRODUCTION) {
+    await tagbotCommands.setCommands(bot);
+  }
+   //await tagbotCommands.setCommands(bot);
 
   bot.use(listeners);
   bot.use(callbacks);

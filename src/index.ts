@@ -1,6 +1,6 @@
 import initializeBot from "./initializeBot.js";
 import "dotenv/config";
-import { ChatType } from "./utils/customTypes.js";
+import { ChatType, NODE_ENV } from "./utils/customTypes.js";
 
 if (
   !process.env.BOT_TOKEN_WAIFU ||
@@ -22,13 +22,14 @@ if (
   }
   process.exit(1);
 }
-const BOT_TOKEN = process.env.TYPE_BOT === ChatType.WAIFU
+let BOT_TOKEN :string | undefined= process.env.TYPE_BOT === ChatType.WAIFU
   ? process.env.BOT_TOKEN_WAIFU : process.env.BOT_TOKEN_HUSBANDO
 
-console.log('type bot', process.env.TYPE_BOT);
 
-
-
+if (process.env.NODE_ENV && process.env.NODE_ENV ===  NODE_ENV.DEVELOPMENT) {
+  console.log("Ambiente de desenvolvimento");
+BOT_TOKEN = process.env.BOT_TOKEM_TESTE
+}
 
 const bot = await initializeBot(
   process.env.TYPE_BOT as ChatType,
@@ -44,6 +45,8 @@ await bot.start({
   onStart: async () => {
     if (process.env.CHAT_ID) {
       await bot.api.sendMessage(process.env.CHAT_ID, "Bot iniciado");
+      console.log("Bot iniciado", process.env.NODE_ENV, process.env.TYPE_BOT);
+      
     }
   },
 });

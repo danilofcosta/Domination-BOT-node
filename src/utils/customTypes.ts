@@ -6,7 +6,10 @@ export enum ChatType {
   WAIFU = "waifu",
   HUSBANDO = "husbando",
 }
-
+export enum NODE_ENV {
+  PRODUCTION = "production",
+  DEVELOPMENT = "development",
+}
 interface BotSettings {
   genero: ChatType;
 }

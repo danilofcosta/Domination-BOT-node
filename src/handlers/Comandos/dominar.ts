@@ -5,7 +5,7 @@ import { mentionUser } from "../../utils/metion_user.js";
 import { grupos } from "../listeners/contarMensagens.js";
 
 function verificarNome(personagem: string, tentativa: string) {
-  const ignorar = ["da", "de", "do", "dos", "das"];
+  const ignorar = ["da", "de", "do", "dos", "das","the",  "a", "an", "the", "&"];
 
   const partes = personagem
     .toLowerCase()
@@ -92,17 +92,18 @@ export async function dominar(ctx: MyContext) {
   const drop = per ? per.drop : null;
 
   if (!drop) {
-    ctx.reply("Nenhum personagem disponível para dominar no momento.");
+    // ctx.reply("Nenhum personagem disponível para dominar no momento.");
+    ctx.answerCallbackQuery(ctx.t("not-charater-to-dominar"));
     return;
   }
 
   const nomePersonagem = drop.character_name;
-
+// caso tentativa seja diferente do nome do personagem
   if (!verificarNome(nomePersonagem, tentativa)) {
     const chatId = String(ctx.chat?.id).slice(4);
     const url_mensagem_drop = `https://t.me/c/${chatId}/${per?.drop_id}`;
 
-    ctx.reply(ctx.t("name-not-found"), {
+  await  ctx.reply(ctx.t("name-not-found"), {
       parse_mode: "HTML",
       reply_markup: {
         inline_keyboard: [
@@ -116,7 +117,7 @@ export async function dominar(ctx: MyContext) {
       },
     });
 
-    return;
+    return;//
   }
   if (verificarNome(nomePersonagem, tentativa)) {
     await prisma.$transaction(async (tx) => {
@@ -146,7 +147,7 @@ export async function dominar(ctx: MyContext) {
     });
   }
 
-  ctx.reply(successDominarMessage(ctx, drop as any, calcularTempo(per!)), {
+ await ctx.reply(successDominarMessage(ctx, drop as any, calcularTempo(per!)), {
     parse_mode: "HTML",
     reply_markup: {
       inline_keyboard: [
@@ -159,6 +160,14 @@ export async function dominar(ctx: MyContext) {
       ],
     },
   });
+
+   // resetar o contador de mensagens
+     grupos[ctx.chat?.id || 0] = {
+      cont: 0,
+      drop: null,
+      drop_id: null,
+      data: null,
+    };
 
   console.log("dominar:", tentativa);
 }
