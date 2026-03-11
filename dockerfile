@@ -8,21 +8,25 @@ COPY package*.json ./
 
 RUN npm install
 
+# copiar códigoQQFROM node:24-alpine
+
+WORKDIR /app
+
+# copiar package files
+COPY package*.json ./
+
+# instalar dependências
+RUN npm install
+
 # copiar código
 COPY . .
 
 # gerar prisma client
 RUN npx prisma generate
 
-# compilar typescript
-RUN npm run build
+# iniciar bot
+CMD ["npm", "start"]
 
 
-# ---------- Runtime stage ----------
-FROM node:24-alpine
-
-WORKDIR /app
-
-ENV NODE_ENV=production
 
 CMD ["node", "dist/index.js"]

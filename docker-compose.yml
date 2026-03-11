@@ -11,7 +11,7 @@ services:
       TYPE_BOT: waifu
 
     env_file:
-      - .env
+      - stack.env
 
   husbando_bot:
     image: telegram-bot
