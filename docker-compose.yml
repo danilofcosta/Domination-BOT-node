@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  waifu_bot:
+    image: telegram-bot
+    build: .
+    container_name: waifu_bot
+    restart: always
+
+    environment:
+      TYPE_BOT: waifu
+
+    env_file:
+      - .env
+
+  husbando_bot:
+    image: telegram-bot
+    container_name: husbando_bot
+    restart: always
+
+    environment:
+      TYPE_BOT: husbando
+
+    env_file:
+    - stack.env

@@ -1,0 +1,199 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model alembic_version {
+  version_num String @id(map: "alembic_version_pkc") @db.VarChar(32)
+}
+
+model characters_husbando {
+  id                  Int                   @id @default(autoincrement())
+  character_name      String                @db.VarChar(100)
+  event_code          eventtype
+  rarity_code         raritytype
+  media_type          mediatype
+  extras              Json?                 @db.Json
+  created_at          DateTime              @default(now()) @db.Timestamp(6)
+  updated_at          DateTime              @default(now()) @db.Timestamp(6)
+  origem              String                @db.VarChar(100)
+  tipo_fonte          String                @db.VarChar(500)
+  data                String                @unique @db.VarChar
+  events              events                @relation(fields: [event_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  rarities            rarities              @relation(fields: [rarity_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  husbando_collection husbando_collection[]
+  users               users[]
+
+  @@index([event_code], map: "ix_characters_husbando_event_code")
+  @@index([rarity_code], map: "ix_characters_husbando_rarity_code")
+}
+
+model characters_waifu {
+  id               Int                @id @default(autoincrement())
+  character_name   String             @db.VarChar(100)
+  event_code       eventtype
+  rarity_code      raritytype
+  media_type       mediatype
+  extras           Json?              @db.Json
+  created_at       DateTime           @default(now()) @db.Timestamp(6)
+  updated_at       DateTime           @default(now()) @db.Timestamp(6)
+  origem           String             @db.VarChar(100)
+  tipo_fonte       String             @db.VarChar(500)
+  data             String             @unique @db.VarChar
+  events           events             @relation(fields: [event_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  rarities         rarities           @relation(fields: [rarity_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  users            users[]
+  waifu_collection waifu_collection[]
+
+  @@index([event_code], map: "ix_characters_waifu_event_code")
+  @@index([rarity_code], map: "ix_characters_waifu_rarity_code")
+}
+
+model events {
+  id                  Int                   @id @default(autoincrement())
+  code                eventtype             @unique(map: "ix_events_code")
+  name                String                @db.VarChar(50)
+  emoji               String?               @db.VarChar(5)
+  description         String?               @db.VarChar(255)
+  characters_husbando characters_husbando[]
+  characters_waifu    characters_waifu[]
+}
+
+model husbando_collection {
+  id                  Int                 @id @default(autoincrement())
+  telegram_id         BigInt
+  character_id        Int
+  added_at            DateTime            @default(now()) @db.Timestamp(6)
+  characters_husbando characters_husbando @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users               users               @relation(fields: [telegram_id], references: [telegram_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([character_id], map: "ix_husbando_collection_character_id")
+  @@index([telegram_id], map: "ix_husbando_collection_telegram_id")
+}
+
+model rarities {
+  id                  Int                   @id @default(autoincrement())
+  code                raritytype            @unique(map: "ix_rarities_code")
+  name                String                @db.VarChar(50)
+  emoji               String?               @db.VarChar(5)
+  description         String?               @db.VarChar(255)
+  characters_husbando characters_husbando[]
+  characters_waifu    characters_waifu[]
+}
+
+model telegram_groups {
+  id            Int      @id @default(autoincrement())
+  group_id      BigInt   @unique(map: "ix_telegram_groups_group_id")
+  group_name    String   @db.VarChar(255)
+  configuration Json?    @db.Json
+  language      language
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
+}
+
+model users {
+  id                   Int                   @id @default(autoincrement())
+  telegram_id          BigInt                @unique(map: "ix_users_telegram_id")
+  telegram_user_data   Json?                 @db.Json
+  created_at           DateTime              @default(now()) @db.Timestamp(6)
+  favorite_waifu_id    Int?
+  favorite_husbando_id Int?
+  profile_status       profiletype?
+  waifu_config         Json                  @db.Json
+  husbando_config      Json                  @db.Json
+  preferred_language   language
+  husbando_collection  husbando_collection[]
+  characters_husbando  characters_husbando?  @relation(fields: [favorite_husbando_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  characters_waifu     characters_waifu?     @relation(fields: [favorite_waifu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  waifu_collection     waifu_collection[]
+
+  @@index([favorite_husbando_id], map: "ix_users_favorite_husbando_id")
+  @@index([favorite_waifu_id], map: "ix_users_favorite_waifu_id")
+}
+
+model waifu_collection {
+  id               Int              @id @default(autoincrement())
+  telegram_id      BigInt
+  character_id     Int
+  added_at         DateTime         @default(now()) @db.Timestamp(6)
+  characters_waifu characters_waifu @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users            users            @relation(fields: [telegram_id], references: [telegram_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([character_id], map: "ix_waifu_collection_character_id")
+  @@index([telegram_id], map: "ix_waifu_collection_telegram_id")
+}
+
+enum eventtype {
+  NONE
+  HALLOWEEN
+  SPRING
+  SUMMER
+  WINTER
+  AUTUMN
+  NEW_YEAR
+  CHRISTMAS
+  VALENTINE
+  CHILDREN
+  BUNNY
+  CARNIVAL
+  MAID
+  ANGEL
+  SPORTS
+  KIMONO
+  GALA
+  GALA_MASCULINA
+  NEW_YEAR_LUNAR
+  NURSE
+  SCHOOL
+  GAME
+}
+
+enum language {
+  PT
+  EN
+  ES
+  FR
+  DE
+  IT
+  JA
+  KO
+  ZH
+}
+
+enum mediatype {
+  IMAGE_URL
+  IMAGE_FILEID
+  IMAGE_BYTES
+  IMAGE_FILE
+  IMAGE_BASE64
+  VIDEO_BYTES
+  VIDEO_BASE64
+  VIDEO_FILE
+  VIDEO_URL
+  VIDEO_FILEID
+}
+
+enum profiletype {
+  SUPREME
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  USER
+  BANNED
+}
+
+enum raritytype {
+  COMMON
+  UNCOMMON
+  RARE
+  LEGENDARY
+  EXCLUSIVE
+  LIMITED
+  SPECIAL
+  MULTIVERSE
+  SPECTRAL
+}
