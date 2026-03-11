@@ -25,7 +25,7 @@ if (
 const BOT_TOKEN = process.env.TYPE_BOT === ChatType.WAIFU
   ? process.env.BOT_TOKEN_WAIFU : process.env.BOT_TOKEN_HUSBANDO
 
-console.log('type bot',BOT_TOKEN, process.env.TYPE_BOT);
+console.log('type bot', process.env.TYPE_BOT);
 
 
 
