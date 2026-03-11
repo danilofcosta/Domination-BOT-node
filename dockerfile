@@ -25,8 +25,7 @@ COPY . .
 RUN npx prisma generate
 
 # iniciar bot
-CMD ["npm", "start"]
+CMD ["npm", "run",     "start"]
 
 
 
-CMD ["node", "dist/index.js"]
