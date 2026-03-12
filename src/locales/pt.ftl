@@ -55,9 +55,7 @@ new_character_secret_caption={$emoji_raridade} {$charater_genero}  apareceu!
     Adicione ao seu harém enviando:  /dominar <code> nome_do_personagem </code>
 
 drop_character_secret_caption =  {$charater_genero}  ja fugiu !
-    Adicione ao seu harém enviando:  /dominar <code> nome_do_personagem </code>
-
-O nome é <code> {$charater_nome} - {$charater_anime} </code>
+    O nome é <code> {$charater_nome} - {$charater_anime} </code>
 
 
 

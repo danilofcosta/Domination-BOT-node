@@ -57,14 +57,16 @@ export async function contarMensagens(ctx: MyContext) {
   console.log("---------------------------------------------------");
 
   grupos[chatId].cont += 1;
-  
+// se o contador for igual ao drop
   if (grupos[chatId].cont === DROP) {
     const result: [number, characters_husbando | characters_waifu] | null =
       await doprar_per(ctx); // result[0] = drop_id, result[1] = drop
     grupos[chatId].drop_id = result ? result[0] : null;
     grupos[chatId].drop = result ? result[1] : null;
     grupos[chatId].data = new Date();
+
   } else if (grupos[chatId].cont >= UNDROP && grupos[chatId].drop_id !== null) {
+    // se o contador for maior ou igual ao undrop
     const data: InfoGrupo = grupos[chatId];
 
     const charater_nome = data.drop
