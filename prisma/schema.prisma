@@ -14,14 +14,14 @@ model alembic_version {
 model characters_husbando {
   id                  Int                   @id @default(autoincrement())
   character_name      String                @db.VarChar(100)
-  event_code          eventtype
-  rarity_code         raritytype
+  event_code          eventtype             @default(NONE)
+  rarity_code         raritytype            @default(COMMON)  
   media_type          mediatype
   extras              Json?                 @db.Json
   created_at          DateTime              @default(now()) @db.Timestamp(6)
   updated_at          DateTime              @default(now()) @db.Timestamp(6)
   origem              String                @db.VarChar(100)
-  tipo_fonte          String                @db.VarChar(500)
+  tipo_fonte          String               @default("ANIME")
   data                String                @unique @db.VarChar
   events              events                @relation(fields: [event_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
   rarities            rarities              @relation(fields: [rarity_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
@@ -42,12 +42,13 @@ model characters_waifu {
   created_at       DateTime           @default(now()) @db.Timestamp(6)
   updated_at       DateTime           @default(now()) @db.Timestamp(6)
   origem           String             @db.VarChar(100)
-  tipo_fonte       String             @db.VarChar(500)
+  tipo_fonte       String            @default("ANIME")
   data             String             @unique @db.VarChar
   events           events             @relation(fields: [event_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
   rarities         rarities           @relation(fields: [rarity_code], references: [code], onDelete: NoAction, onUpdate: NoAction)
   users            users[]
   waifu_collection waifu_collection[]
+
 
   @@index([event_code], map: "ix_characters_waifu_event_code")
   @@index([rarity_code], map: "ix_characters_waifu_rarity_code")

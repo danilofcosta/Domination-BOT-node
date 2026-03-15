@@ -26,19 +26,22 @@ let BOT_TOKEN :string | undefined= process.env.TYPE_BOT === ChatType.WAIFU
   ? process.env.BOT_TOKEN_WAIFU : process.env.BOT_TOKEN_HUSBANDO
 
 
-if (process.env.NODE_ENV && process.env.NODE_ENV ===  NODE_ENV.DEVELOPMENT) {
-  console.log("Ambiente de desenvolvimento");
-BOT_TOKEN = process.env.BOT_TOKEM_TESTE
-}
+// if (process.env.NODE_ENV && process.env.NODE_ENV ===  NODE_ENV.DEVELOPMENT) {
+//   console.log("Ambiente de desenvolvimento");
+// BOT_TOKEN = process.env.BOT_TOKEM_TESTE
+// }
 
 const bot = await initializeBot(
   process.env.TYPE_BOT as ChatType,
   BOT_TOKEN as string
 );
 
+
+
+
 await bot.api.deleteWebhook({ drop_pending_updates: true });
 
-// bot.on("message", (ctx) => ctx.react("👍"));
+
 
 await bot.start({
   drop_pending_updates: true,
@@ -49,4 +52,12 @@ await bot.start({
       
     }
   },
+});
+
+process.once("SIGINT", async () => {
+  if (process.env.CHAT_ID) {
+    await bot.api.sendMessage(process.env.CHAT_ID, "Bot parado");
+    console.log("Bot parado", process.env.NODE_ENV, process.env.TYPE_BOT);
+  }
+  await bot.stop();
 });

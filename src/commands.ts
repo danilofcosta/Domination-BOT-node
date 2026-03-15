@@ -1,44 +1,52 @@
 import { CommandGroup } from "@grammyjs/commands";
 import type { MyContext } from "./utils/customTypes.js";
-import { Myinfos } from "./handlers/Comandos/myinfos.js";
-import { favCharacter } from "./handlers/Comandos/fav.js";
-import { start } from "./handlers/Comandos/start.js";
-import { table } from "node:console";
-import { HaremHandler } from "./handlers/Comandos/harem.js";
-import { giftHandler } from "./handlers/Comandos/gift.js";
-import { dominar } from "./handlers/Comandos/dominar.js";
-import { teste } from "./handlers/Comandos/teste.js";
-import { topHander } from "./handlers/Comandos/top.js";
 
-const B=process.env.TYPE_BOT?.charAt(0)
+// Handlers
+import { start } from "./handlers/Comandos/globais/start.js";
+import { dominar } from "./handlers/Comandos/users/dominar.js";
+import { teste } from "./handlers/Comandos/users/teste.js";
+import { giftHandler } from "./handlers/Comandos/users/gift.js";
+import { topHander } from "./handlers/Comandos/users/top.js";
+import { Myinfos } from "./handlers/Comandos/users/myinfos.js";
+import { favCharacter } from "./handlers/Comandos/users/fav.js";
+import { HaremHandler } from "./handlers/Comandos/users/harem.js";
+import { AddCharacter } from "./handlers/Comandos/admin/add_charecter.js";
 
+
+const botPrefix = process.env.TYPE_BOT?.charAt(0) ?? "";
+const typeBot = process.env.TYPE_BOT;
+const prefixs ='./!'
+const options = { ignoreCase: true };
 
 const tagbotCommands = new CommandGroup<MyContext>();
-tagbotCommands.command("dominar", "Dominate a character", dominar , {ignoreCase: true});
+
+
+// comandos gerais
+tagbotCommands.command("dominar", "Dominate a character", dominar, options);
 tagbotCommands.command("teste", "Test the bot", teste);
+tagbotCommands.command("start", "Start the bot and get a greeting message", start , options);
 
+// comandos com prefixo do bot
+tagbotCommands.command(`${botPrefix}gift`, "Gift a character to another user", giftHandler , options);
+tagbotCommands.command(`${botPrefix}top`, "Show the top players", topHander   , options);
+tagbotCommands.command(`${botPrefix}info`, "Show your information", Myinfos , options);
+tagbotCommands.command(`${botPrefix}fav`, "Show your favorite character", favCharacter  , options);
 
-
-
-tagbotCommands.command(`${B}gift`, "Gift a character to another user", giftHandler);
-tagbotCommands.command(`${B}top`, "Gift a character to another user", topHander);
-tagbotCommands.command(`${B}info`, "Show your information", Myinfos);
-tagbotCommands.command(`${B}fav`, "Show your favorite character", favCharacter);
-//apenas em pv
+// Harem
 
 tagbotCommands.command(
-  "start",
-  "Start the bot and get a greeting message",
-  start
-);
-tagbotCommands.command(
-  "harem",
+  `my${typeBot}s`,
   "Get information about the Harem feature",
   HaremHandler,
+  options
 );
-// tagbotCommands.command("broadcast", "Broadcast a message to all groups and users", broadcastHandler);
+
+
+// comando admis 
+const adminCommands = new CommandGroup<MyContext>(); // adicionar  verificação admin
+adminCommands.command("addchar", "Add a character to the database", AddCharacter);
 
 const devCommands = new CommandGroup<MyContext>();
 // devCommands.command("broadcast", "Broadcast a message to all groups and users", broadcastHandler);
 
-export { tagbotCommands, devCommands };
+export { tagbotCommands, devCommands, adminCommands };

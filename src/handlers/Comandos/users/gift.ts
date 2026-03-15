@@ -1,11 +1,9 @@
-import { text } from "node:stream/consumers";
-import { ChatType, type MyContext } from "../../utils/customTypes.js";
-import { prisma } from "../../../lib/prisma.js";
-import { Sendmedia } from "../../utils/sendmedia.js";
-import { mentionUser } from "../../utils/metion_user.js";
-import { bts_yes_or_no } from "../../utils/bts.js";
+import { prisma } from "../../../../lib/prisma.js";
+import { bts_yes_or_no } from "../../../utils/bts.js";
+import { ChatType, type MyContext } from "../../../utils/customTypes.js";
+import { mentionUser } from "../../../utils/metion_user.js";
+import { Sendmedia } from "../../../utils/sendmedia.js";
 
-// Handler para o comando "gift"
 // base comando gift @usuario personagem
 export async function giftHandler(ctx: MyContext) {
   let giftid: number | undefined = undefined;

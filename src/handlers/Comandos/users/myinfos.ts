@@ -1,5 +1,5 @@
-import { prisma } from "../../../lib/prisma.js";
-import { ChatType, type MyContext } from "../../utils/customTypes.js";
+import { prisma } from "../../../../lib/prisma.js";
+import { ChatType, type MyContext } from "../../../utils/customTypes.js";
 
 export async function Myinfos(ctx: MyContext) {
   console.log("myinfos");

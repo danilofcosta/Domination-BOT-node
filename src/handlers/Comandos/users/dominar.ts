@@ -1,8 +1,9 @@
-import { language } from "../../../generated/prisma/enums.js";
-import { prisma } from "../../../lib/prisma.js";
-import { ChatType, type MyContext } from "../../utils/customTypes.js";
-import { mentionUser } from "../../utils/metion_user.js";
-import { grupos } from "../listeners/contarMensagens.js";
+import { language } from "../../../../generated/prisma/enums.js";
+import { prisma } from "../../../../lib/prisma.js";
+import { ChatType, type MyContext } from "../../../utils/customTypes.js";
+import { mentionUser } from "../../../utils/metion_user.js";
+import { grupos } from "../../listeners/contarMensagens.js";
+
 
 function verificarNome(personagem: string, tentativa: string) {
   const ignorar = ["da", "de", "do", "dos", "das","the",  "a", "an", "the", "&"];

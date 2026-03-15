@@ -6,16 +6,16 @@ import type {
   characters_waifu,
 } from "../../generated/prisma/client.js";
 
-export async function doprar_per(
+export async function RandomCharacter(
   ctx: MyContext,
 ): Promise<characters_husbando | characters_waifu | null> {
-  // Função auxiliar genérica
+ 
   async function getRandom<T>(table: any): Promise<T | null> {
     const total = await table.count();
     if (total === 0) return null;
 
     const randomIndex = Math.floor(Math.random() * total);
-    const [item] = await table.findMany({ skip: randomIndex, take: 1 });
+    const [item] = await table.findMany({ skip: randomIndex, take: 1,include: { rarities: true, events: true } });
     return item as T;
   }
 

@@ -16,8 +16,7 @@ export function create_caption({
   user_id,
   repetition,
 }: Params) {
-  const genero = ctx.genero === ChatType.WAIFU ? "uma waifu" : "um husbando";
-  //console.log(character);
+  const genero = ctx.genero === ChatType.WAIFU ? "essa waifu" : "esse husbando";
 
   const usermention =
     username && user_id ? mentionUser(username ?? "user", Number(user_id)) : "";

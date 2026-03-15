@@ -17,7 +17,7 @@ import { createResult } from "./create_inline_result.js";
 import { showResults } from "./show_results_inline.js";
 import { group } from "node:console";
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 export type RawCharacter = {
   id: number;

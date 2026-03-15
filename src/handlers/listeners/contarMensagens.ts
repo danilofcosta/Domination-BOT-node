@@ -52,8 +52,8 @@ export async function contarMensagens(ctx: MyContext) {
   console.log("---------------------------------------------------");
 
   console.log("Mensagem recebida no grupo", ctx.chat.title, chatId);
-  console.log("Mensagem recebida no grupo", chatId);
-  console.log("Mensagem: ", ctx.message.from.first_name, ctx.message.text);
+  console.log("Mensagem recebida no grupo",  ctx.message.from.id);
+  console.log("Mensagem: ", ctx.message.from.first_name,"|", ctx.message.text);
   console.log("---------------------------------------------------");
 
   grupos[chatId].cont += 1;

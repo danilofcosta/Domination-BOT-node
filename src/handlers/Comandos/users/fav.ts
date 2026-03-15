@@ -1,7 +1,7 @@
-import { ChatType, type MyContext } from "../../utils/customTypes.js";
-import { prisma } from "../../../lib/prisma.js";
-import { Sendmedia } from "../../utils/sendmedia.js";
-import { bts_yes_or_no } from "../../utils/bts.js";
+import { prisma } from "../../../../lib/prisma.js";
+import { bts_yes_or_no } from "../../../utils/bts.js";
+import { type MyContext, ChatType } from "../../../utils/customTypes.js";
+import { Sendmedia } from "../../../utils/sendmedia.js";
 
 export async function favCharacter(ctx: MyContext) {
   if (!ctx.match) {

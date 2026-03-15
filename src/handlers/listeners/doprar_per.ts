@@ -6,36 +6,14 @@ import type {
 } from "../../../generated/prisma/client.js";
 import { Sendmedia } from "../../utils/sendmedia.js";
 import { createSecret } from "../../utils/form_caption.js";
+import { RandomCharacter } from "../../utils/randomCharacter.js";
 
 export async function doprar_per(
   ctx: MyContext,
 ): Promise<[number, characters_husbando | characters_waifu] | null> {
-  // Escolher tabela com base no gênero
-  const isHusbando = ctx.genero === ChatType.HUSBANDO;
+  
 
-  const total = isHusbando
-    ? await prisma.characters_husbando.count()
-    : await prisma.characters_waifu.count();
-
-  if (total === 0) return null;
-
-  // Índice aleatório
-  const randomIndex = Math.floor(Math.random() * total);
-
-  // Buscar item aleatório
-  const randomItem = isHusbando
-    ? await prisma.characters_husbando.findMany({
-        skip: randomIndex,
-        take: 1,
-        include: { rarities: true, events: true },
-      })
-    : await prisma.characters_waifu.findMany({
-        skip: randomIndex,
-        take: 1,
-        include: { rarities: true, events: true },
-      });
-
-  const personagem = randomItem[0];
+  const personagem =await RandomCharacter(ctx);
   if (!personagem) return null;
 
   // Criar legenda

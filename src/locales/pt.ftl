@@ -21,10 +21,23 @@ btn-yes=✅ Sim
 btn-no=❌ Não
 
 
+
 ###############
 ### WELCOME ###
 ###############
-start-greeting=ainda não finalizado
+start-greeting-header= Saudações, Eu sou {$botname}
+start-greeting-body=  O que eu faço:Eu faço aparecer {$genero} no seu chat para os usuários capturarem
+start-greeting-extra-body= Como me usar:Adicione-me ao seu grupo
+
+start-btn-add=Aᴅᴅ+
+start-btn-help=Hᴇʟᴘ
+start-btn-database = ᴅᴀᴛᴀʙᴀsᴇ
+
+###############
+## HELP ##
+###############
+help-caption = "Aᴊᴜᴅᴀ"
+
 
 
 ###############
@@ -110,7 +123,7 @@ harem_btn_prev_page=⬅️
 harem_btn_current_page=[{$currentpage}/{$totalpages}]
 harem_btn_fast_page=⚡️
 harem_btn_next_page=➡️
-harem_btn_close=trash
+harem_btn_close=🗑
 
 harem_no_user = vc nao tem um harem
 
@@ -126,3 +139,9 @@ top_header_start = -----------------
 top_header_end = -----------------
 top_pre_index =┣ 
 
+
+
+############
+# ADD CHARACTER #
+############
+add_character_confirm = ⚕ ᴀᴅᴅᴇᴅ ʙʏ: { $usermention }
